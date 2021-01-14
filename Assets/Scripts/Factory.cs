@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Factory : MonoBehaviour
 {
-    [SerializeField] GameObject prefab;
+    public GameObject prefab;
 
     // Update is called once per frame
     void Update()
