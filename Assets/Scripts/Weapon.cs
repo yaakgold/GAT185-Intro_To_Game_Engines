@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public float fireRate = 0.1f;
     public GameObject bullet;
+    
+    private int ammo = 100;
+    private float fireTimer = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -15,15 +20,22 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //mouse.z = 5;
-            //Vector3 dir = (mouse - transform.position).normalized;
+        fireTimer += Time.deltaTime;
+    }
 
-            Bullet b = Instantiate(bullet.gameObject, transform.position, Quaternion.identity).GetComponent<Bullet>();
-            b.Fire(mouse.direction);
-            //Destroy(b, 3);
+    public bool Fire(Vector3 position, Vector3 direction)
+    {
+        if(fireTimer >= fireRate && ammo > 0)
+        {
+            Bullet b = Instantiate(bullet.gameObject, position, Quaternion.identity).GetComponent<Bullet>();
+            b.Fire(direction);
+            Destroy(b, 20);
+
+            fireTimer = 0;
+            ammo--;
+
+            return true;
         }
+        return false;
     }
 }
