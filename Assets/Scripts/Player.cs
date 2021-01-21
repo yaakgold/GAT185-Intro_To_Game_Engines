@@ -22,10 +22,13 @@ public class Player : MonoBehaviour
 
         //transform.position = Vector3.Lerp(transform.position, transform.position + velocity * speed, Time.deltaTime);
 
-        if(Input.GetButtonDown("Fire1"))
+        if(Game.Instance.State == Game.eState.GAME)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            weapons[0].Fire(ray.origin, ray.direction);
+            if(Input.GetButtonDown("Fire1"))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                weapons[0].Fire(ray.origin, ray.direction);
+            }
         }
     }
 }

@@ -18,15 +18,18 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.childCount == 0)
+        if(Game.Instance.State == Game.eState.GAME)
         {
-            spawnTimer -= Time.deltaTime;
-        }
+            if(transform.childCount == 0)
+            {
+                spawnTimer -= Time.deltaTime;
+            }
 
-        if(spawnTimer <= 0)
-        {
-            Instantiate(spawnObj, transform.position, transform.rotation, transform);
-            spawnTimer = Random.Range(spawnTimeMin, spawnTimeMax);
+            if(spawnTimer <= 0)
+            {
+                Instantiate(spawnObj, transform.position, transform.rotation, transform);
+                spawnTimer = Random.Range(spawnTimeMin, spawnTimeMax);
+            }
         }
     }
 }
