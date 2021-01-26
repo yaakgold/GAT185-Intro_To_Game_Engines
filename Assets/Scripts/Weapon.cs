@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
             Destroy(b, 20);
 
             fireTimer = 0;
-            ammo--;
+            //ammo--;
 
             return true;
         }
