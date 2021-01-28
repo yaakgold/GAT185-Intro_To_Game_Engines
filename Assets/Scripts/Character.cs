@@ -9,6 +9,8 @@ public class Character : MonoBehaviour
     [Range(0, 20)] public float jump = 1;
     [Range(-20, 20)] public float gravity = -9.8f;
 
+    public Animator animator;
+
     CharacterController characterController;
 
     Vector3 inputDirection, velocity, moveDir;
@@ -29,20 +31,26 @@ public class Character : MonoBehaviour
         inputDirection.x = Input.GetAxis("Horizontal");
         inputDirection.z = Input.GetAxis("Vertical");
 
+        Quaternion camRot = Camera.main.transform.rotation;
+        Quaternion rot = Quaternion.AngleAxis(camRot.eulerAngles.y, Vector3.up);
+        Vector3 direction = rot * inputDirection;
+
         if(inputDirection.magnitude > 0.1f)
         {
-            transform.forward = inputDirection.normalized;
+            Quaternion target = Quaternion.LookRotation(direction.normalized);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * speed);
         }
+
+        animator.SetFloat("Speed", inputDirection.magnitude);
 
         if(Input.GetButtonDown("Jump") && isGrounded)
         {
-            velocity.y += jump;
+            velocity.y += jump * Time.deltaTime;
         }
 
-        if(!isGrounded)
-            velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * Time.deltaTime;
 
-        moveDir = (inputDirection * speed * Time.deltaTime) + velocity;
+        moveDir = (direction * speed * Time.deltaTime) + velocity;
 
         characterController.Move(moveDir);
 
