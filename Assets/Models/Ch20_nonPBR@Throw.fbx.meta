@@ -1,37 +1,12 @@
 fileFormatVersion: 2
-guid: 222340f19eb0c4e4e80e6152b343b9ea
+guid: 91efaaf04232ea04899175abceebd98a
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
     second: mixamo.com
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Ch20_body
-    second: {fileID: 2100000, guid: 938b3878c83acd94e9868410a86851b2, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Ch20_1001_Diffuse
-    second: {fileID: 2800000, guid: 8d05c6b25a22b4741993401e11e8ad00, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Ch20_1001_Glossiness
-    second: {fileID: 2800000, guid: 19abee50668f73f4dace09e272dc24d5, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Ch20_1001_Normal
-    second: {fileID: 2800000, guid: c518f892846a79449845846c416e0beb, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Ch20_1001_Specular
-    second: {fileID: 2800000, guid: bf1bd59413125d541af38980d2ac2bbf, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -100,12 +75,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips:
-  - 4973be13a58def54e86055c3efa6e1c4
-  - 909967ad59be5264dac978d666786ff9
-  - 02c7fb2afbc47974a9db53b266f11161
-  - 8806363db40fd9c409a7b1b736f8525f
-  - 91efaaf04232ea04899175abceebd98a
+  referencedClips: []
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
@@ -874,11 +844,11 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 222340f19eb0c4e4e80e6152b343b9ea, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 

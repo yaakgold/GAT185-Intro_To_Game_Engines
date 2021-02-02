@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class Character : MonoBehaviour
@@ -15,6 +16,8 @@ public class Character : MonoBehaviour
 
     Vector3 inputDirection, velocity, moveDir;
 
+    bool isGrounded = false;
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -22,18 +25,16 @@ public class Character : MonoBehaviour
 
     void Update()
     {
-        bool isGrounded = characterController.isGrounded;
+        isGrounded = characterController.isGrounded;
+
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
-
-        inputDirection = Vector3.zero;
-
-        inputDirection.x = Input.GetAxis("Horizontal");
-        inputDirection.z = Input.GetAxis("Vertical");
 
         Quaternion camRot = Camera.main.transform.rotation;
         Quaternion rot = Quaternion.AngleAxis(camRot.eulerAngles.y, Vector3.up);
         Vector3 direction = rot * inputDirection;
+
+        characterController.Move(direction * Time.deltaTime * speed);
 
         if(inputDirection.magnitude > 0.1f)
         {
@@ -41,19 +42,38 @@ public class Character : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * speed);
         }
 
-        animator.SetFloat("Speed", inputDirection.magnitude);
-
-        if(Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y += jump * Time.deltaTime;
-        }
-
         velocity.y += gravity * Time.deltaTime;
 
-        moveDir = (direction * speed * Time.deltaTime) + velocity;
+        animator.SetFloat("Speed", inputDirection.magnitude);
+        animator.SetBool("OnGround", isGrounded);
+        animator.SetFloat("VelocityY", velocity.y);
 
-        characterController.Move(moveDir);
+        characterController.Move(velocity * Time.deltaTime);
+    }
 
+    public void OnJump()
+    {
+        if (isGrounded)
+        {
+            velocity.y += jump;
+        }
+    }
 
+    public void OnMove(InputValue input)
+    {
+        Vector2 v2 = input.Get<Vector2>();
+
+        inputDirection.x = v2.x;
+        inputDirection.z = v2.y;
+    }
+
+    public void OnPunch()
+    {
+        animator.SetTrigger("Punch");
+    }
+
+    public void OnThrow()
+    {
+        animator.SetTrigger("Throw");
     }
 }
