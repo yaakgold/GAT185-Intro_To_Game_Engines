@@ -18,9 +18,11 @@ public class Character : MonoBehaviour
 
     bool isGrounded = false;
 
+    Health health;
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        health = GetComponent<Health>();
     }
 
     void Update()
@@ -49,6 +51,11 @@ public class Character : MonoBehaviour
         animator.SetFloat("VelocityY", velocity.y);
 
         characterController.Move(velocity * Time.deltaTime);
+
+        if(health.CurrentHealth <= 0)
+        {
+            animator.SetTrigger("Death");
+        }
     }
 
     public void OnJump()
