@@ -83,4 +83,9 @@ public class Character : MonoBehaviour
     {
         animator.SetTrigger("Throw");
     }
+
+    public void OnFire()
+    {
+        print("fhklsd");
+    }
 }

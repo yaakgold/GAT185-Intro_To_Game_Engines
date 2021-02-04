@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthPickup : MonoBehaviour
 {
     public float addHealthAmount;
+    public GameObject spawnObject;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +14,11 @@ public class HealthPickup : MonoBehaviour
         if (health != null)
         {
             health.AddHealth(addHealthAmount);
-            GetComponent<AudioSource>().Play();
+            if(spawnObject != null)
+            {
+                Destroy(Instantiate(spawnObject, transform.position, transform.rotation, other.transform), 2);
+            }
+            
             Destroy(gameObject);
         }
     }
