@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     [Range(-20, 20)] public float gravity = -9.8f;
 
     public Animator animator;
+    public Weapon weapon;
 
     CharacterController characterController;
 
@@ -86,6 +87,6 @@ public class Character : MonoBehaviour
 
     public void OnFire()
     {
-        print("fhklsd");
+        weapon.Fire(transform.forward);
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public float fireRate = 0.1f;
-    public GameObject bullet;
+    [Range(0, 3)] public float fireRate = 0.1f;
+    [Range(0, 100)] public float angle = 10.0f;
+    public GameObject projectile;
+    public int maxAmmo;
+    public Transform emitTransform;
     
     private int ammo = 100;
     private float fireTimer = 0;
@@ -27,7 +30,23 @@ public class Weapon : MonoBehaviour
     {
         if(fireTimer >= fireRate && ammo > 0)
         {
-            Bullet b = Instantiate(bullet.gameObject, position, Quaternion.identity).GetComponent<Bullet>();
+            Projectile b = Instantiate(projectile.gameObject, position, Quaternion.identity).GetComponent<Projectile>();
+            b.Fire(direction);
+            Destroy(b, 20);
+
+            fireTimer = 0;
+            //ammo--;
+
+            return true;
+        }
+        return false;
+    }
+
+    public bool Fire(Vector3 direction)
+    {
+        if (fireTimer >= fireRate && ammo > 0)
+        {
+            Projectile b = Instantiate(projectile.gameObject, emitTransform.position, emitTransform.rotation).GetComponent<Projectile>();
             b.Fire(direction);
             Destroy(b, 20);
 
