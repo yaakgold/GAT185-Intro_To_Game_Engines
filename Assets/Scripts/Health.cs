@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     public float maxHealth;
     public float healthMult = 5;
     public Slider slider;
+    public bool destroyOnDeath = false;
     public float CurrentHealth { get; set; }
 
     // Start is called before the first frame update
@@ -20,7 +21,18 @@ public class Health : MonoBehaviour
     void Update()
     {
         AddHealth(-Time.deltaTime * healthMult);
-        slider.value = CurrentHealth / maxHealth;
+        if(slider != null)
+        {
+            slider.value = CurrentHealth / maxHealth;
+        }
+
+        if(CurrentHealth <= 0)
+        {
+            if(destroyOnDeath)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void AddHealth(float amount)
