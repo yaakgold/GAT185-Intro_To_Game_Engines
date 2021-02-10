@@ -20,17 +20,20 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AddHealth(-Time.deltaTime * healthMult);
-        if(slider != null)
+        if(Game.Instance.State == Game.eState.GAME)
         {
-            slider.value = CurrentHealth / maxHealth;
-        }
-
-        if(CurrentHealth <= 0)
-        {
-            if(destroyOnDeath)
+            AddHealth(-Time.deltaTime * healthMult);
+            if(slider != null)
             {
-                Destroy(gameObject);
+                slider.value = CurrentHealth / maxHealth;
+            }
+
+            if(CurrentHealth <= 0)
+            {
+                if(destroyOnDeath)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

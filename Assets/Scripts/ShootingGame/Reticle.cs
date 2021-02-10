@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Reticle : MonoBehaviour
 {
@@ -13,6 +14,6 @@ public class Reticle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Input.mousePosition;
+        transform.position = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
     }
 }

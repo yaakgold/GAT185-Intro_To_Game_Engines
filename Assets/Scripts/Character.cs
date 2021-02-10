@@ -9,13 +9,14 @@ public class Character : MonoBehaviour
     [Range(0, 20)] public float speed = 1;
     [Range(0, 20)] public float jump = 1;
     [Range(-20, 20)] public float gravity = -9.8f;
-
+    public Vector3 defaultPos;
     public Animator animator;
     public Weapon weapon;
 
     CharacterController characterController;
 
     Vector3 inputDirection, velocity, moveDir;
+    Quaternion defaultRot;
 
     bool isGrounded = false;
 
@@ -24,39 +25,59 @@ public class Character : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         health = GetComponent<Health>();
+
+        defaultPos = transform.position;
+        defaultRot = transform.rotation;
     }
 
     void Update()
     {
-        isGrounded = characterController.isGrounded;
-
-        if (isGrounded && velocity.y < 0)
-            velocity.y = 0;
-
-        Quaternion camRot = Camera.main.transform.rotation;
-        Quaternion rot = Quaternion.AngleAxis(camRot.eulerAngles.y, Vector3.up);
-        Vector3 direction = rot * inputDirection;
-
-        characterController.Move(direction * Time.deltaTime * speed);
-
-        if(inputDirection.magnitude > 0.1f)
+        if(Game.Instance.State == Game.eState.GAME)
         {
-            Quaternion target = Quaternion.LookRotation(direction.normalized);
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * speed);
+            isGrounded = characterController.isGrounded;
+
+            if (isGrounded && velocity.y < 0)
+                velocity.y = 0;
+
+            Quaternion camRot = Camera.main.transform.rotation;
+            Quaternion rot = Quaternion.AngleAxis(camRot.eulerAngles.y, Vector3.up);
+            Vector3 direction = rot * inputDirection;
+
+            characterController.Move(direction * Time.deltaTime * speed);
+
+            if(inputDirection.magnitude > 0.1f)
+            {
+                Quaternion target = Quaternion.LookRotation(direction.normalized);
+                transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * speed);
+            }
+
+            velocity.y += gravity * Time.deltaTime;
+
+            animator.SetFloat("Speed", inputDirection.magnitude);
+            animator.SetBool("OnGround", isGrounded);
+            animator.SetFloat("VelocityY", velocity.y);
+
+            characterController.Move(velocity * Time.deltaTime);
+
+            if(health.CurrentHealth <= 0)
+            {
+                animator.SetTrigger("Death");
+                Game.Instance.State = Game.eState.GAME_OVER;
+            }
         }
+    }
 
-        velocity.y += gravity * Time.deltaTime;
+    public void ResetGame()
+    {
+        //Animation
+        animator.SetTrigger("Reset");
 
-        animator.SetFloat("Speed", inputDirection.magnitude);
-        animator.SetBool("OnGround", isGrounded);
-        animator.SetFloat("VelocityY", velocity.y);
+        //Health
+        health.CurrentHealth = health.maxHealth;
 
-        characterController.Move(velocity * Time.deltaTime);
-
-        if(health.CurrentHealth <= 0)
-        {
-            animator.SetTrigger("Death");
-        }
+        //Transform
+        transform.position = defaultPos;
+        transform.rotation = defaultRot;
     }
 
     public void OnJump()

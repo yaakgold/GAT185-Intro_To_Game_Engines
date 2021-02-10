@@ -6,10 +6,13 @@ using TMPro;
 
 public class Game : MonoBehaviour
 {
-    public int Score { get; set; } = 0;
+    public float Score { get; set; } = 0;
     public TextMeshProUGUI scoreUI, timerUI, highScoreUI;
     public GameObject startScreen, gameOverScreen;
     public AudioSource music;
+    public bool useTimer = true;
+    public float timeScoreMult;
+    public Character playerObj;
     public int HighScore { get; set; } = 0;
 
     float timer = 20.0f;
@@ -46,10 +49,10 @@ public class Game : MonoBehaviour
 
     public eState State { get; set; } = eState.TITLE;
 
-    public void AddScore(int points)
+    public void AddScore(float points)
     {
         Score += points;
-        scoreUI.text = string.Format("{0:D4}", Score);
+        scoreUI.text = string.Format(Score.ToString());
     }
 
     private void Update()
@@ -62,7 +65,7 @@ public class Game : MonoBehaviour
                 break;
             case eState.START_GAME:
                 Score = 0;
-                scoreUI.text = string.Format("{0:D4}", Score);
+                scoreUI.text = string.Format(Score.ToString());
                 timer = 20;
                 startScreen.SetActive(false);
                 gameOverScreen.SetActive(false);
@@ -71,13 +74,20 @@ public class Game : MonoBehaviour
                 State = eState.GAME;
                 break;
             case eState.GAME:
-                timer -= Time.deltaTime;
-                timerUI.text = string.Format("Time: {0}s", Mathf.FloorToInt(timer));
-
-                if(timer <= 0)
+                if(useTimer)
                 {
-                    music.Stop();
-                    State = eState.GAME_OVER;
+                    timer -= Time.deltaTime;
+                    timerUI.text = string.Format("Time: {0}s", Mathf.FloorToInt(timer));
+
+                    if(timer <= 0)
+                    {
+                        music.Stop();
+                        State = eState.GAME_OVER;
+                    }
+                }
+                else
+                {
+                    AddScore(Time.deltaTime * timeScoreMult);
                 }
                 break;
             case eState.GAME_OVER:
@@ -89,20 +99,23 @@ public class Game : MonoBehaviour
         }
     }
 
-    public static int UpdateHighScore(int score)
+    public static float UpdateHighScore(float score)
     {
-        int hs = PlayerPrefs.GetInt("HighScore");
-
+        float hs = PlayerPrefs.GetInt("HighScore");
         if(score > hs)
         {
-            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.SetFloat("HighScore", score);
         }
 
-        return PlayerPrefs.GetInt("HighScore");
+        return PlayerPrefs.GetFloat("HighScore");
     }
 
     public void StartGame()
     {
+        if (playerObj != null)
+        {
+            playerObj.ResetGame();
+        }
         State = eState.START_GAME;
     }
 

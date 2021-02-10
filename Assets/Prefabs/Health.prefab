@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edeb712252f3ff140898c025d6d9036c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addHealthAmount: 10
+  addHealthAmount: 25
   spawnObject: {fileID: 2406222214657425566, guid: 0088e304f175c7944b87c646856a9c2a, type: 3}
 --- !u!82 &4414148444845705556
 AudioSource:
