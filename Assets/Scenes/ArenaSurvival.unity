@@ -7809,7 +7809,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Game
+  m_text: Survival Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0996963611fbb80428d25a7a72a2a918, type: 2}
   m_sharedMaterial: {fileID: -6735989120456549025, guid: 0996963611fbb80428d25a7a72a2a918, type: 2}
@@ -8057,7 +8057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 1712387325}
-  offset: {x: 0, y: 7, z: -5}
+  offset: {x: 0, y: 5, z: -5}
   rate: 10
 --- !u!1001 &1550628735
 PrefabInstance:

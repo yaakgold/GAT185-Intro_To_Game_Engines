@@ -32,7 +32,43 @@ public class Character : MonoBehaviour
 
     void Update()
     {
-        if(Game.Instance.State == Game.eState.GAME)
+        if(Game.Instance != null)
+        {
+            if(Game.Instance.State == Game.eState.GAME)
+            {
+                isGrounded = characterController.isGrounded;
+
+                if (isGrounded && velocity.y < 0)
+                    velocity.y = 0;
+
+                Quaternion camRot = Camera.main.transform.rotation;
+                Quaternion rot = Quaternion.AngleAxis(camRot.eulerAngles.y, Vector3.up);
+                Vector3 direction = rot * inputDirection;
+
+                characterController.Move(direction * Time.deltaTime * speed);
+
+                if(inputDirection.magnitude > 0.1f)
+                {
+                    Quaternion target = Quaternion.LookRotation(direction.normalized);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * speed);
+                }
+
+                velocity.y += gravity * Time.deltaTime;
+
+                animator.SetFloat("Speed", inputDirection.magnitude);
+                animator.SetBool("OnGround", isGrounded);
+                animator.SetFloat("VelocityY", velocity.y);
+
+                characterController.Move(velocity * Time.deltaTime);
+
+                if(health.CurrentHealth <= 0)
+                {
+                    animator.SetTrigger("Death");
+                    Game.Instance.State = Game.eState.GAME_OVER;
+                }
+            }
+        }
+        else
         {
             isGrounded = characterController.isGrounded;
 
@@ -45,7 +81,7 @@ public class Character : MonoBehaviour
 
             characterController.Move(direction * Time.deltaTime * speed);
 
-            if(inputDirection.magnitude > 0.1f)
+            if (inputDirection.magnitude > 0.1f)
             {
                 Quaternion target = Quaternion.LookRotation(direction.normalized);
                 transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * speed);
@@ -59,10 +95,9 @@ public class Character : MonoBehaviour
 
             characterController.Move(velocity * Time.deltaTime);
 
-            if(health.CurrentHealth <= 0)
+            if (health.CurrentHealth <= 0)
             {
                 animator.SetTrigger("Death");
-                Game.Instance.State = Game.eState.GAME_OVER;
             }
         }
     }
