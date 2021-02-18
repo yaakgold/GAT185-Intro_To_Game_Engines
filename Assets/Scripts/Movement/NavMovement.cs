@@ -41,4 +41,9 @@ public class NavMovement : Movement
     {
         meshAgent.isStopped = true;
     }
+
+    public override void Resume()
+    {
+        meshAgent.isStopped = false;
+    }
 }

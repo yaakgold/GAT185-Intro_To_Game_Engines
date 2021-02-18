@@ -9,6 +9,8 @@ public class CharacterCamera : MonoBehaviour
     public Transform targetTransform;
     public Vector3 offset;
     [Range(1, 20)] public float rate;
+    public bool orientToTarget = true;
+    public bool clampYaw = true;
 
     Vector2 inputRotation = Vector2.zero;
     float pitch = 30, yaw, distance = 3;
@@ -22,7 +24,7 @@ public class CharacterCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Quaternion rotBase = targetTransform.rotation;
+        Quaternion rotBase = (orientToTarget) ?  targetTransform.rotation : Quaternion.identity;
         Quaternion rotation = rotBase * Quaternion.AngleAxis(yaw, Vector3.up) 
                                       * Quaternion.AngleAxis(pitch, Vector3.right);
 
@@ -50,7 +52,8 @@ public class CharacterCamera : MonoBehaviour
     public void OnYaw(InputAction.CallbackContext ctx)
     {
         yaw += ctx.ReadValue<float>();
-        yaw = Mathf.Clamp(yaw, -70, 70);
+        if(clampYaw)
+            yaw = Mathf.Clamp(yaw, -70, 70);
     }
 
     public void OnDistance(InputAction.CallbackContext ctx)

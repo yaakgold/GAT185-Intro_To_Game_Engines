@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
@@ -10,6 +11,8 @@ public class Health : MonoBehaviour
     public Slider slider;
     public bool destroyOnDeath = false;
     public GameObject destroyObj;
+
+    public UnityEvent deathEvent;
 
     public float CurrentHealth { get; set; }
     public bool IsDead { get; set; } = false;
@@ -36,6 +39,7 @@ public class Health : MonoBehaviour
                 if(CurrentHealth <= 0 && !IsDead)
                 {
                     IsDead = true;
+                    deathEvent?.Invoke();
                     if(destroyObj != null)
                     {
                         Instantiate(destroyObj, transform.position, transform.rotation);

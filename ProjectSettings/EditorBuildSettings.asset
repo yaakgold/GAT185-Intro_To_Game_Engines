@@ -4,5 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/GameController.unity
+    guid: 6d0329a97ccfcc94a9b6070600e881e1
+  - enabled: 1
+    path: Assets/Scenes/Physics.unity
+    guid: db45557f3b58c3742b547ffb48dc3361
+  - enabled: 1
+    path: Assets/Scenes/Controller.unity
+    guid: 6d881f38a2f0dc04296e97a32d07225d
+  - enabled: 1
+    path: Assets/Scenes/Basic.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/ArenaSurvival.unity
+    guid: 2e23b15038fc14f4c8163dcc9791fc17
+  - enabled: 1
+    path: Assets/Scenes/MainMenu1.unity
+    guid: 97834d9b305561d4398d1f499e8de2f3
   m_configObjects: {}
