@@ -148,6 +148,11 @@ public class Character : MonoBehaviour
         transform.rotation = defaultRot;
     }
 
+    public void OnDeath()
+    {
+        animator.SetTrigger("Death");
+    }
+
     public void OnJump()
     {
         if (isGrounded)
